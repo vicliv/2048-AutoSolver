@@ -1,21 +1,16 @@
 package solver;
 
-import java.awt.AWTException;
-
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.robot.Robot;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -57,12 +52,13 @@ public class Display extends Application {
         
         VBox box = new VBox();
         HBox hbox = new HBox();
-        ToggleButton autoplayButton = new ToggleButton();
-        autoplayButton.setText("autoplay");
-        autoplayButton.setFocusTraversable(false);
+        Text help = new Text();
+        help.setText("\nUse the arrows to move the tiles\nPress R to Restart\nPress Z to undo\nPress X to redo\nPress A to use the autoplayer");
+        help.setFocusTraversable(false);
+        
         
         hbox.getChildren().add(tscore);
-        hbox.getChildren().add(autoplayButton);
+        hbox.getChildren().add(help);
         box.getChildren().add(hbox);
         
         StackPane stack = new StackPane();
@@ -78,7 +74,7 @@ public class Display extends Application {
         stack.getChildren().add(gridPane);
         
         box.getChildren().add(stack);
-        Scene scene = new Scene(box, 650, 650);
+        Scene scene = new Scene(box, 650, 750);
         scene.setFill(Color.grayRgb(220));
         
         
@@ -164,7 +160,6 @@ public class Display extends Application {
             	Autoplayer player = new Autoplayer();
             	int moveNumber = player.findBestMove(model);
             	
-            	Robot r = new Robot();
             	if (moveNumber == 1) {
             		System.out.println("UP");    
                     Polygon triangle = new Polygon();
