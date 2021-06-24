@@ -24,14 +24,14 @@ public class Model implements Cloneable {
 		colorMap.put(4, Color.TURQUOISE);
 		colorMap.put(8, Color.BROWN);
 		colorMap.put(16, Color.MAGENTA);
-		colorMap.put(64, Color.YELLOW);
-		colorMap.put(128, Color.CYAN);
-		colorMap.put(256, Color.GREEN);
-		colorMap.put(512, Color.ORANGE);
-		colorMap.put(1024, Color.LIME);
-		colorMap.put(2048, Color.NAVY);
-		colorMap.put(4096, Color.PINK);
-		colorMap.put(8192, Color.RED);
+		colorMap.put(32, Color.YELLOW);
+		colorMap.put(64, Color.CYAN);
+		colorMap.put(128, Color.GREEN);
+		colorMap.put(256, Color.ORANGE);
+		colorMap.put(512, Color.LIME);
+		colorMap.put(1024, Color.NAVY);
+		colorMap.put(2048, Color.PINK);
+		colorMap.put(4096, Color.RED);
 		
 		Random rand = new Random();
 		tiles =  new Tile[4][4]; 

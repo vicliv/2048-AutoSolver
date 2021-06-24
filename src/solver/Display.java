@@ -1,21 +1,23 @@
 package solver;
 
-import java.util.*;
-
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Pair;
+import javafx.util.Duration;
 
 public class Display extends Application {
 	private static GridPane gridPane;
@@ -51,31 +53,90 @@ public class Display extends Application {
         updateTiles();
         
         VBox box = new VBox();
-        box.getChildren().add(tscore);
-        box.getChildren().add(gridPane);
+        HBox hbox = new HBox();
+        ToggleButton autoplayButton = new ToggleButton();
+        autoplayButton.setText("autoplay");
+        autoplayButton.setFocusTraversable(false);
         
-       
-
-        //gridPane.setTileAlignment(Pos.CENTER);
+        hbox.getChildren().add(tscore);
+        hbox.getChildren().add(autoplayButton);
+        box.getChildren().add(hbox);
+        
+        StackPane stack = new StackPane();
+        GridPane background = new GridPane();
+        background.setAlignment(Pos.CENTER);
+        
+        for (int i = 0 ;  i<4 ; i++) {
+        	for (int j = 0 ;  j<4 ; j++) {
+        		background.add(createTile(-1), i, j, 1, 1);
+        	}
+        }
+        stack.getChildren().add(background);
+        stack.getChildren().add(gridPane);
+        
+        box.getChildren().add(stack);
         Scene scene = new Scene(box, 650, 650);
         scene.setFill(Color.grayRgb(220));
         
         
         scene.setOnKeyPressed(e -> {
+        	TranslateTransition tt = new TranslateTransition();
+        	tt.setDuration(Duration.millis(50));
+        	tt.setDelay(Duration.millis(20));
             if (e.getCode() == KeyCode.DOWN) {
                 System.out.println("DOWN");
+                Polygon triangle = new Polygon();
+                triangle.getPoints().addAll(new Double[]{
+                    250.0, 0.0,
+                    350.0, 0.0,
+                    300.0, 150.0 });
+                triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+                stack.getChildren().add(triangle);
+                tt.setToY(800);
+                tt.setNode(triangle);
+                tt.play();
                 move = new MoveDown(model);
                 move.perform();
             } else if (e.getCode() == KeyCode.UP) {
-                System.out.println("UP");
+                System.out.println("UP");    
+                Polygon triangle = new Polygon();
+                triangle.getPoints().addAll(new Double[]{
+                    250.0, 600.0,
+                    350.0, 600.0,
+                    300.0, 450.0 });
+                triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+                stack.getChildren().add(triangle);
+                tt.setToY(-800);
+                tt.setNode(triangle);
+                tt.play();
                 move = new MoveUp(model);
                 move.perform();
             } else if (e.getCode() == KeyCode.RIGHT) {
                 System.out.println("RIGHT");
+                Polygon triangle = new Polygon();
+                triangle.getPoints().addAll(new Double[]{
+                    0.0, 250.0,
+                    0.0, 350.0,
+                    150.0, 300.0 });
+                triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+                stack.getChildren().add(triangle);
+                tt.setToX(800);
+                tt.setNode(triangle);
+                tt.play();
                 move = new MoveRight(model);
                 move.perform();
             } else if (e.getCode() == KeyCode.LEFT) {
                 System.out.println("LEFT");
+                Polygon triangle = new Polygon();
+                triangle.getPoints().addAll(new Double[]{
+                    600.0, 250.0,
+                    600.0, 350.0,
+                    450.0, 300.0 });
+                triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+                stack.getChildren().add(triangle);
+                tt.setToX(-800);
+                tt.setNode(triangle);
+                tt.play();
                 move = new MoveLeft(model);
                 move.perform();
             } else if (e.getCode() == KeyCode.R) {
@@ -111,6 +172,9 @@ public class Display extends Application {
 		Rectangle rectangle;
 		
 		if (value == 0) {		
+			rectangle = new Rectangle(0, 0, 150, 150);
+			rectangle.setFill(Color.TRANSPARENT);
+		} else if (value == -1) {
 			rectangle = new Rectangle(0, 0, 150, 150);
 			rectangle.setFill(Color.WHITE);
 		} else {
