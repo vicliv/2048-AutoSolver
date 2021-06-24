@@ -3,6 +3,7 @@ package solver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
@@ -67,24 +68,20 @@ public class Model implements Cloneable {
 	
 	public Model clone() {
 		
-		try {
-			Model clone = (Model) super.clone();
-		
-			for (int i = 0; i<4 ; i++) {
-				for (int j = 0; j<4; j++) {
-					if (tiles[i][j] != null) {
-						clone.tiles[i][j] = tiles[i][j].clone();
-					} else {
-						clone.tiles[i][j] = null;
-					}
+		Model clone = new Model();
+
+		for (int i = 0; i<4 ; i++) {
+			for (int j = 0; j<4; j++) {
+				if (tiles[i][j] != null) {
+					Tile t = this.tiles[i][j].clone();
+					clone.tiles[i][j] = t;
+				} else {
+					clone.tiles[i][j] = null;
 				}
 			}
-			clone.score = score;
-			return clone;
-		} catch (CloneNotSupportedException e) {
-			assert false;
-			return null;
 		}
+		clone.score = score;
+		return clone;
 	}
 	
 	public String toString() {

@@ -1,5 +1,7 @@
 package solver;
 
+import java.awt.AWTException;
+
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -13,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.robot.Robot;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -145,7 +148,6 @@ public class Display extends Application {
             } else if (e.getCode() == KeyCode.Z) {
                 System.out.println("Z");
                 Model m = back.undo();
-                System.out.println(m.toString());
                 if (m != null) {
                 	model = m;
                 	updateTiles();
@@ -157,6 +159,69 @@ public class Display extends Application {
                 	model = m;
                 	updateTiles();
                 }
+            } else if (e.getCode() == KeyCode.A) {
+            	System.out.println("A");
+            	Autoplayer player = new Autoplayer();
+            	int moveNumber = player.findBestMove(model);
+            	
+            	Robot r = new Robot();
+            	if (moveNumber == 1) {
+            		System.out.println("UP");    
+                    Polygon triangle = new Polygon();
+                    triangle.getPoints().addAll(new Double[]{
+                        250.0, 600.0,
+                        350.0, 600.0,
+                        300.0, 450.0 });
+                    triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+                    stack.getChildren().add(triangle);
+                    tt.setToY(-800);
+                    tt.setNode(triangle);
+                    tt.play();
+                    move = new MoveUp(model);
+                    move.perform();
+            	} else if (moveNumber == 2) {
+            		System.out.println("DOWN");
+                    Polygon triangle = new Polygon();
+                    triangle.getPoints().addAll(new Double[]{
+                        250.0, 0.0,
+                        350.0, 0.0,
+                        300.0, 150.0 });
+                    triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+                    stack.getChildren().add(triangle);
+                    tt.setToY(800);
+                    tt.setNode(triangle);
+                    tt.play();
+                    move = new MoveDown(model);
+                    move.perform();
+            	} else if (moveNumber == 3) {
+            		System.out.println("RIGHT");
+                    Polygon triangle = new Polygon();
+                    triangle.getPoints().addAll(new Double[]{
+                        0.0, 250.0,
+                        0.0, 350.0,
+                        150.0, 300.0 });
+                    triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+                    stack.getChildren().add(triangle);
+                    tt.setToX(800);
+                    tt.setNode(triangle);
+                    tt.play();
+                    move = new MoveRight(model);
+                    move.perform();
+            	} else if (moveNumber == 4) {
+            		System.out.println("LEFT");
+                    Polygon triangle = new Polygon();
+                    triangle.getPoints().addAll(new Double[]{
+                        600.0, 250.0,
+                        600.0, 350.0,
+                        450.0, 300.0 });
+                    triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+                    stack.getChildren().add(triangle);
+                    tt.setToX(-800);
+                    tt.setNode(triangle);
+                    tt.play();
+                    move = new MoveLeft(model);
+                    move.perform();
+            	}
             }
         });
         

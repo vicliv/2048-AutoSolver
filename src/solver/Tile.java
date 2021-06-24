@@ -58,15 +58,10 @@ public class Tile implements Cloneable {
 	}
 	
 	public Tile clone() {
-		try {
-			Tile t = (Tile) super.clone();
-			t.value = this.value;
-			t.pane = Display.createTile(t.value);
-			return t;
-		} catch (CloneNotSupportedException e) {
-			assert false;
-			return null;
-		}
+		Tile t = new Tile();
+		t.value = this.value;
+		t.pane = Display.createTile(t.value);
+		return t;
 	}
 	
 	public String toString() {
