@@ -39,5 +39,16 @@ public class Backup {
 		undoStack.clear();
 		redoStack.clear();
 	}
+	
+	public void clear() {
+		if (undoStack.size() > 15) {
+			undoStack.remove(0);
+		}
+		
+		if (redoStack.size() > 15) {
+			redoStack.remove(0);
+		}
+
+	}
 
 }

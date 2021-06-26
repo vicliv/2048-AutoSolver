@@ -26,6 +26,7 @@ public abstract class AbstractMove {
         		}
         	}
         }
+		Display.back.clear();
 
 		return change;		
 	}

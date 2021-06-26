@@ -111,7 +111,7 @@ public class Display extends Application {
             } else if (e.getCode() == KeyCode.A) {
             	System.out.println("A");
             	Autoplayer player = new Autoplayer();
-            	int moveNumber = player.findBestMove(model);
+            	int moveNumber = player.nextMove(model);
             	
             	if (moveNumber == 1) {
             		up();
@@ -250,19 +250,6 @@ public class Display extends Application {
 		model = new Model();
 		back.reset();
 		updateTiles();
-	}
-	
-	
-	public static void wait(int ms)
-	{
-	    try
-	    {
-	        Thread.sleep(ms);
-	    }
-	    catch(InterruptedException ex)
-	    {
-	        Thread.currentThread().interrupt();
-	    }
 	}
 	
 	
