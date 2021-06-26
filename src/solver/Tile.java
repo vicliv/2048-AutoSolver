@@ -13,7 +13,7 @@ public class Tile implements Cloneable {
 		Random rand = new Random();
         int v2 = rand.nextInt(10);
         
-        if (v2 < 8) {
+        if (v2 < 9) {
         	value = 2;
         } else {
         	value = 4;
@@ -21,7 +21,13 @@ public class Tile implements Cloneable {
         
         pane = Display.createTile(value);
         merged = false;
-		
+	}
+	
+	public Tile(int v) {	
+		value = v;
+        
+        pane = Display.createTile(value);
+        merged = false;
 	}
 	
 	public int getValue() {

@@ -16,10 +16,17 @@ public abstract class AbstractMove {
 				change = execute(i, change);
 			}
 		}
-		if (change) {
-			model.generateNewTile();
-			Display.updateTiles();
-		}
+		
+		Tile[][] tiles = model.getTiles();
+		for (int i = 0 ;  i<4 ; i++) {
+        	for (int j = 0 ;  j<4 ; j++) {  		
+        		if (tiles[i][j] != null) {
+        			tiles[i][j].unMerged();
+        		} else {
+        		}
+        	}
+        }
+
 		return change;		
 	}
 	

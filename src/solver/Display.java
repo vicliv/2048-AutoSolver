@@ -20,9 +20,11 @@ import javafx.util.Duration;
 public class Display extends Application {
 	private static GridPane gridPane;
 	private static Text tscore;
+	private static StackPane stack;
 	public static Model model;
 	AbstractMove move;
 	public static Backup back = new Backup();
+	TranslateTransition tt = new TranslateTransition();
 
 	/**
 	 * Launches the application.
@@ -38,7 +40,6 @@ public class Display extends Application {
 	{
 		model = new Model();
 		pStage.setTitle("2048");
-		
 
         gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
@@ -61,7 +62,7 @@ public class Display extends Application {
         hbox.getChildren().add(help);
         box.getChildren().add(hbox);
         
-        StackPane stack = new StackPane();
+        stack = new StackPane();
         GridPane background = new GridPane();
         background.setAlignment(Pos.CENTER);
         
@@ -79,65 +80,17 @@ public class Display extends Application {
         
         
         scene.setOnKeyPressed(e -> {
-        	TranslateTransition tt = new TranslateTransition();
+        	tt = new TranslateTransition();
         	tt.setDuration(Duration.millis(50));
-        	tt.setDelay(Duration.millis(20));
+    		tt.setDelay(Duration.millis(20));
             if (e.getCode() == KeyCode.DOWN) {
-                System.out.println("DOWN");
-                Polygon triangle = new Polygon();
-                triangle.getPoints().addAll(new Double[]{
-                    250.0, 0.0,
-                    350.0, 0.0,
-                    300.0, 150.0 });
-                triangle.setFill(Color.rgb(30, 30, 30, 0.1));
-                stack.getChildren().add(triangle);
-                tt.setToY(800);
-                tt.setNode(triangle);
-                tt.play();
-                move = new MoveDown(model);
-                move.perform();
+                down();
             } else if (e.getCode() == KeyCode.UP) {
-                System.out.println("UP");    
-                Polygon triangle = new Polygon();
-                triangle.getPoints().addAll(new Double[]{
-                    250.0, 600.0,
-                    350.0, 600.0,
-                    300.0, 450.0 });
-                triangle.setFill(Color.rgb(30, 30, 30, 0.1));
-                stack.getChildren().add(triangle);
-                tt.setToY(-800);
-                tt.setNode(triangle);
-                tt.play();
-                move = new MoveUp(model);
-                move.perform();
+                up();
             } else if (e.getCode() == KeyCode.RIGHT) {
-                System.out.println("RIGHT");
-                Polygon triangle = new Polygon();
-                triangle.getPoints().addAll(new Double[]{
-                    0.0, 250.0,
-                    0.0, 350.0,
-                    150.0, 300.0 });
-                triangle.setFill(Color.rgb(30, 30, 30, 0.1));
-                stack.getChildren().add(triangle);
-                tt.setToX(800);
-                tt.setNode(triangle);
-                tt.play();
-                move = new MoveRight(model);
-                move.perform();
+            	right();
             } else if (e.getCode() == KeyCode.LEFT) {
-                System.out.println("LEFT");
-                Polygon triangle = new Polygon();
-                triangle.getPoints().addAll(new Double[]{
-                    600.0, 250.0,
-                    600.0, 350.0,
-                    450.0, 300.0 });
-                triangle.setFill(Color.rgb(30, 30, 30, 0.1));
-                stack.getChildren().add(triangle);
-                tt.setToX(-800);
-                tt.setNode(triangle);
-                tt.play();
-                move = new MoveLeft(model);
-                move.perform();
+            	left();
             } else if (e.getCode() == KeyCode.R) {
                 System.out.println("R");
                 reset();
@@ -161,61 +114,13 @@ public class Display extends Application {
             	int moveNumber = player.findBestMove(model);
             	
             	if (moveNumber == 1) {
-            		System.out.println("UP");    
-                    Polygon triangle = new Polygon();
-                    triangle.getPoints().addAll(new Double[]{
-                        250.0, 600.0,
-                        350.0, 600.0,
-                        300.0, 450.0 });
-                    triangle.setFill(Color.rgb(30, 30, 30, 0.1));
-                    stack.getChildren().add(triangle);
-                    tt.setToY(-800);
-                    tt.setNode(triangle);
-                    tt.play();
-                    move = new MoveUp(model);
-                    move.perform();
+            		up();
             	} else if (moveNumber == 2) {
-            		System.out.println("DOWN");
-                    Polygon triangle = new Polygon();
-                    triangle.getPoints().addAll(new Double[]{
-                        250.0, 0.0,
-                        350.0, 0.0,
-                        300.0, 150.0 });
-                    triangle.setFill(Color.rgb(30, 30, 30, 0.1));
-                    stack.getChildren().add(triangle);
-                    tt.setToY(800);
-                    tt.setNode(triangle);
-                    tt.play();
-                    move = new MoveDown(model);
-                    move.perform();
+            		down();
             	} else if (moveNumber == 3) {
-            		System.out.println("RIGHT");
-                    Polygon triangle = new Polygon();
-                    triangle.getPoints().addAll(new Double[]{
-                        0.0, 250.0,
-                        0.0, 350.0,
-                        150.0, 300.0 });
-                    triangle.setFill(Color.rgb(30, 30, 30, 0.1));
-                    stack.getChildren().add(triangle);
-                    tt.setToX(800);
-                    tt.setNode(triangle);
-                    tt.play();
-                    move = new MoveRight(model);
-                    move.perform();
+            		right();
             	} else if (moveNumber == 4) {
-            		System.out.println("LEFT");
-                    Polygon triangle = new Polygon();
-                    triangle.getPoints().addAll(new Double[]{
-                        600.0, 250.0,
-                        600.0, 350.0,
-                        450.0, 300.0 });
-                    triangle.setFill(Color.rgb(30, 30, 30, 0.1));
-                    stack.getChildren().add(triangle);
-                    tt.setToX(-800);
-                    tt.setNode(triangle);
-                    tt.play();
-                    move = new MoveLeft(model);
-                    move.perform();
+            		left();
             	}
             }
         });
@@ -260,14 +165,85 @@ public class Display extends Application {
 		for (int i = 0 ;  i<4 ; i++) {
         	for (int j = 0 ;  j<4 ; j++) {
         		if (tiles[i][j] != null) {
-        			tiles[i][j].unMerged();
-        			gridPane.add(tiles[i][j].getPane(), i, j, 1, 1);
+        			gridPane.add(tiles[i][j].getPane(), j, i, 1, 1);
         		} else {
-        			gridPane.add(createTile(0), i, j, 1, 1);
+        			gridPane.add(createTile(0), j, i, 1, 1);
         		}
         	}
         }
 		tscore.setText("Score: " + Integer.toString(model.score));
+	}
+	
+	public void down() {
+		System.out.println("DOWN");
+        Polygon triangle = new Polygon();
+        triangle.getPoints().addAll(new Double[]{
+            250.0, 0.0,
+            350.0, 0.0,
+            300.0, 150.0 });
+        triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+        stack.getChildren().add(triangle);
+        tt.setToY(800);
+        tt.setNode(triangle);
+        tt.play();
+        move = new MoveDown(model);
+        move.perform();
+        model.generateNewTile();
+        updateTiles();
+	}
+	
+	public void up() {
+		System.out.println("UP");    
+        Polygon triangle = new Polygon();
+        triangle.getPoints().addAll(new Double[]{
+            250.0, 600.0,
+            350.0, 600.0,
+            300.0, 450.0 });
+        triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+        stack.getChildren().add(triangle);
+        tt.setToY(-800);
+        tt.setNode(triangle);
+        tt.play();
+        move = new MoveUp(model);
+        move.perform();
+        model.generateNewTile();
+        updateTiles();
+	}
+	
+	public void right() {
+		System.out.println("RIGHT");
+        Polygon triangle = new Polygon();
+        triangle.getPoints().addAll(new Double[]{
+            0.0, 250.0,
+            0.0, 350.0,
+            150.0, 300.0 });
+        triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+        stack.getChildren().add(triangle);
+        tt.setToX(800);
+        tt.setNode(triangle);
+        tt.play();
+        move = new MoveRight(model);
+        move.perform();
+        model.generateNewTile();
+        updateTiles();
+	}
+	
+	public void left() {
+		System.out.println("LEFT");
+        Polygon triangle = new Polygon();
+        triangle.getPoints().addAll(new Double[]{
+            600.0, 250.0,
+            600.0, 350.0,
+            450.0, 300.0 });
+        triangle.setFill(Color.rgb(30, 30, 30, 0.1));
+        stack.getChildren().add(triangle);
+        tt.setToX(-800);
+        tt.setNode(triangle);
+        tt.play();
+        move = new MoveLeft(model);
+        move.perform();
+        model.generateNewTile();
+        updateTiles();
 	}
 	
 	public static void reset() {
@@ -275,6 +251,7 @@ public class Display extends Application {
 		back.reset();
 		updateTiles();
 	}
+	
 	
 	public static void wait(int ms)
 	{

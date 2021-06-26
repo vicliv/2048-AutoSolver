@@ -3,13 +3,14 @@ package solver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
-public class Model implements Cloneable {
+public class Model implements Cloneable, Iterable<Tile> {
 	private Tile[][] tiles;
 	public final static Map<Integer, Color> colorMap = new HashMap<Integer, Color>();
 	public int score;
@@ -50,7 +51,7 @@ public class Model implements Cloneable {
 		tiles[x2][y2] = new Tile();		
 	}
 	
-	public void generateNewTile() {
+	public boolean generateNewTile() {
 		ArrayList<Pair<Integer,Integer>> l =  new ArrayList<Pair<Integer,Integer>>();
 		for (int i = 0 ; i<4; i++) {
 			for (int j = 0; j<4; j++) {
@@ -60,9 +61,11 @@ public class Model implements Cloneable {
 			}
 		}
 		Random rand = new Random();
+		if (l.size() == 0) return false;
 		int index = rand.nextInt(l.size());
 		Pair<Integer,Integer> p = l.get(index);
 		tiles[p.getKey()][p.getValue()] = new Tile();
+		return true;
 	}
 	
 	public Model clone() {
@@ -85,6 +88,17 @@ public class Model implements Cloneable {
 	
 	public String toString() {
 		return Arrays.deepToString(tiles);
+	}
+
+	@Override
+	public Iterator<Tile> iterator() {
+		ArrayList<Tile> ts = new ArrayList<>();
+		for (int i = 0 ; i<4; i++) {
+			for (int j = 0; j<4; j++) {
+				ts.add(tiles[i][j]);
+			}
+		}
+		return ts.iterator();
 	}
 	
 }
