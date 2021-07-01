@@ -8,7 +8,7 @@ public class Autoplayer {
 	private int MERGE = 80;
 	private int CORNER = 300;
 	private int STRUCT = 10;
-	private int BAD_TILE = 30;
+	private int BAD_TILE = 1000;
 
 	public Autoplayer() {
 	}
@@ -176,8 +176,7 @@ public class Autoplayer {
 		int total = 0;
 		Tile[][] tiles = model.getTiles();
 		PriorityQueue<Pair<Integer, Pair<Integer, Integer>>> highestTiles = new PriorityQueue<>();
-		PriorityQueue<Pair<Integer, Pair<Integer, Integer>>> copy = new PriorityQueue<>(highestTiles);
-		
+
 		for (int i = 0 ; i<4; i++) {
 			for (int j=0; j<4; j++) {
 				if (tiles[i][j] != null) {
@@ -240,6 +239,10 @@ public class Autoplayer {
 			for (int j=0; j<4; j++) {
 				if (tiles[i][j] != null) {	
 					highestTiles.add(new Pair<Integer, Pair<Integer, Integer>>(tiles[i][j].getValue(), new Pair<Integer, Integer>(i, j)));
+				} else {
+					if (i==3) {
+						total -= BAD_TILE;
+					}
 				}
 			}
 		}
@@ -293,9 +296,6 @@ public class Autoplayer {
 				if (i>4) {
 					if (curr.second.first == 3) {
 						total -= BAD_TILE;
-					}
-					if (total <= 0) {
-						total = 2;
 					}
 				}
 				

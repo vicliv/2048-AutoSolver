@@ -26,15 +26,6 @@ public class Display extends Application {
 	public static Backup back = new Backup();
 	TranslateTransition tt = new TranslateTransition();
 
-	/**
-	 * Launches the application.
-	 * @param pArgs This program takes no argument.
-	 */
-	public static void main(String[] pArgs) 
-	{
-        launch(pArgs);
-    }
-
 	@Override
 	public void start(Stage pStage) throws Exception
 	{
